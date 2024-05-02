@@ -93,37 +93,39 @@ int main(void) {
     }
     fclose(file);
 
+    for (int p=0;p<9;p++){
+        for(int o=0;o<9;o++){
+            for (int i=0;i<1000;i++){
+                int human_x= p;
+                int human_y= o;
 
-    for (int i=0;i<1000;i++){
-        int human_x= rand() % 9+0;
-        int human_y= rand() % 9+0;
-
-        total[human_x][human_y]=total[human_x][human_y]+1;
-        int original_x=human_x;
-        int original_y=human_y;
-        for (int i=0;i<10;i++){
-            int result = determination(&map, &human_x, &human_y);
-            if (result == 1){
-                path[original_x][original_y][pcount[original_x][original_y]]=i;
-                pcount[original_x][original_y]=pcount[original_x][original_y]+1;
-                success[original_x][original_y]=success[original_x][original_y]+1;
-                pathcount[original_x][original_y]=pathcount[original_x][original_y]+i;
-                break;
+                total[human_x][human_y]=total[human_x][human_y]+1;
+                int original_x=human_x;
+                int original_y=human_y;
+                for (int i=0;i<10;i++){
+                    int result = determination(&map, &human_x, &human_y);
+                    if (result == 1){
+                        path[original_x][original_y][pcount[original_x][original_y]]=i;
+                        pcount[original_x][original_y]=pcount[original_x][original_y]+1;
+                        success[original_x][original_y]=success[original_x][original_y]+1;
+                        pathcount[original_x][original_y]=pathcount[original_x][original_y]+i;
+                        break;
+                    }
+                    if (result == -1){
+                        break;
+                    }
+                    if (result == -2){
+                        printf("Error!");
+                        exit(1);
+                    }
+                    if(i == 9){
+                        break;
+                    }
+                    movement(&human_x,&human_y);
+                }
             }
-            if (result == -1){
-                break;
-            }
-            if (result == -2){
-                printf("Error!");
-                exit(1);
-            }
-            if(i == 9){
-                break;
-            }
-            movement(&human_x,&human_y);
         }
     }
-
     //print map
     printf("Map:\n");
     for (int i = 0; i < ROWS; i++) {
