@@ -66,7 +66,7 @@ int main(void) {
     srand(time(NULL)); 
     //definemap
     FILE *file;
-    file = fopen("island_map.txt", "r");
+    file = fopen("map.txt", "r");
     if (file == NULL) {
         perror("Error!");  
         exit(1);
