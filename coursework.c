@@ -94,7 +94,7 @@ int main(void) {
     fclose(file);
 
 
-    for (int i=0;i<10000;i++){
+    for (int i=0;i<1000;i++){
         int human_x= rand() % 9+0;
         int human_y= rand() % 9+0;
 
@@ -128,7 +128,10 @@ int main(void) {
     printf("Map:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%c ", map[i][j]);
+            printf("%c", map[i][j]);
+            if (j<8){
+                printf(" ");
+            }
         }
         printf("\n");
     }
@@ -149,7 +152,10 @@ int main(void) {
     printf("\nProbability of escape:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%6.2lf ", probability[i][j]);
+            printf("%6.2lf", probability[i][j]);
+            if (j<8){
+                printf(" ");
+            }
         }
         printf("\n");
     }
@@ -170,7 +176,10 @@ int main(void) {
     printf("\nMean path length:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%0.2lf ", pathavg[i][j]);
+            printf("%0.2lf", pathavg[i][j]);
+            if (j<8){
+                printf(" ");
+            }
         }
         printf("\n");
     }
@@ -195,7 +204,10 @@ int main(void) {
     printf("\nStandard deviation of path length:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%0.2lf ", pathsd[i][j]);
+            printf("%0.2lf", pathsd[i][j]);
+            if (j<8){
+                printf(" ");
+            }
         }
         printf("\n");
     }
