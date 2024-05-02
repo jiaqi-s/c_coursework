@@ -53,7 +53,7 @@ int determination(char (*array)[9][9],int *a,int *b){
     }else if ((*array)[*a][*b]=='B')
     {
         return 1;
-    }else if ((*array)[*a][*b]=='L')
+    }else if ((*array)[*a][*b]=='L')//
     {
         return 0;
     }
