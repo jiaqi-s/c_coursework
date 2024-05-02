@@ -67,13 +67,20 @@ int main(void) {
     //definemap
     FILE *file;
     file = fopen("island_map.txt", "r");
-
+    if (file == NULL) {
+        printf("Error!");  
+        exit(1);
+    }
   
     int i = 0, j = 0;
     char c;
     while ((c = fgetc(file)) != EOF) {  
         if (c == ' ' || c == '\n') {
             continue;
+        }
+        if (c==0){
+            printf("Error!");
+            exit(1);
         }
         if (j < COLS) {
             map[i][j++] = c;
@@ -106,7 +113,10 @@ int main(void) {
             if (result == -1){
                 break;
             }
-
+            if (result == -2){
+                printf("Error!");
+                exit(1);
+            }
             if(i == 9){
                 break;
             }
