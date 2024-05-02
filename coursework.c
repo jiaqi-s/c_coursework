@@ -69,7 +69,7 @@ int main(void) {
     file = fopen("island_map.txt", "r");
     if (file == NULL) {
         printf("Error!");  
-        exit(1);
+        return 1;
     }
   
     int i = 0, j = 0;
@@ -77,10 +77,6 @@ int main(void) {
     while ((c = fgetc(file)) != EOF) {  
         if (c == ' ' || c == '\n') {
             continue;
-        }
-        if (c==0){
-            printf("Error!");
-            exit(1);
         }
         if (j < COLS) {
             map[i][j++] = c;
@@ -116,7 +112,7 @@ int main(void) {
                     }
                     if (result == -2){
                         printf("Error!");
-                        exit(1);
+                        return 1;
                     }
                     if(i == 9){
                         break;
