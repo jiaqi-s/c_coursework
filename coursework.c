@@ -56,8 +56,6 @@ int determination(char (*array)[9][9],int *a,int *b){
     }else if ((*array)[*a][*b]=='L')
     {
         return 0;
-    }else{
-        return -2;
     }
 }
 
@@ -78,16 +76,30 @@ int main(void) {
         if (c == ' ' || c == '\n') {
             continue;
         }
-        if (j < COLS) {
-            map[i][j++] = c;
+        if (j < 9) {
+            map[i][j] = c;
+            j++;
         }
-        if (j == COLS) {
+        if (j == 9) {
             i++;
             j = 0;
-            if (i >= ROWS) break;  
+            if (i > 9) {
+                printf("Error!");
+                return 1;
+            }
         }
     }
     fclose(file);
+    printf("Map:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%c", map[i][j]);
+            if (j<8){
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
 
     for (int p=0;p<9;p++){
         for(int o=0;o<9;o++){
@@ -98,7 +110,7 @@ int main(void) {
                 total[human_x][human_y]=total[human_x][human_y]+1;
                 int original_x=human_x;
                 int original_y=human_y;
-                for (int i=0;i<10;i++){
+                for (int i=0;i<11;){
                     int result = determination(&map, &human_x, &human_y);
                     if (result == 1){
                         path[original_x][original_y][pcount[original_x][original_y]]=i;
@@ -110,28 +122,26 @@ int main(void) {
                     if (result == -1){
                         break;
                     }
-                    if (result == -2){
-                        printf("Error!");
-                        return 1;
-                    }
+
                     if(i == 9){
                         break;
                     }
                     movement(&human_x,&human_y);
+                    i++;
                 }
             }
         }
     }
     //print map
-    printf("Map:\n");fflush(stdout);
+    printf("Map:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%c", map[i][j]);fflush(stdout);
+            printf("%c", map[i][j]);
             if (j<8){
-                printf(" ");fflush(stdout);
+                printf(" ");
             }
         }
-        printf("\n");fflush(stdout);
+        printf("\n");
     }
 
     //probability of escape
@@ -206,7 +216,7 @@ int main(void) {
             if (j<8){
                 printf(" ");
             }
-        }
+        } 
         printf("\n");
     }
 
