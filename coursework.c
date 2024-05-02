@@ -78,10 +78,6 @@ int main(void) {
         if (c == ' ' || c == '\n') {
             continue;
         }
-        if (c==0){
-            printf("Error!");
-            exit(1);
-        }
         if (j < COLS) {
             map[i][j++] = c;
         }
