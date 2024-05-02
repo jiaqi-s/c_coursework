@@ -90,16 +90,6 @@ int main(void) {
         }
     }
     fclose(file);
-    printf("Map:\n");
-    for (int i = 0; i < ROWS; i++) {
-        for (int j = 0; j < COLS; j++) {
-            printf("%c", map[i][j]);
-            if (j<8){
-                printf(" ");
-            }
-        }
-        printf("\n");
-    }
 
     for (int p=0;p<9;p++){
         for(int o=0;o<9;o++){
