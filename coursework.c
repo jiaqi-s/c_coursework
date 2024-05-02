@@ -123,15 +123,15 @@ int main(void) {
         }
     }
     //print map
-    printf("Map:\n");
+    printf("Map:\n");fflush(stdout);
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%c", map[i][j]);
+            printf("%c", map[i][j]);fflush(stdout);
             if (j<8){
-                printf(" ");
+                printf(" ");fflush(stdout);
             }
         }
-        printf("\n");
+        printf("\n");fflush(stdout);
     }
 
     //probability of escape
@@ -174,7 +174,7 @@ int main(void) {
     printf("\nMean path length:\n");
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            printf("%0.2lf", pathavg[i][j]);
+            printf("%0.2lf", pathavg[i][j] );
             if (j<8){
                 printf(" ");
             }
