@@ -102,7 +102,7 @@ int main(void) {
         int original_x=human_x;
         int original_y=human_y;
         for (int i=0;i<10;i++){
-            int result = determination(map, &human_x, &human_y);
+            int result = determination(&map, &human_x, &human_y);
             if (result == 1){
                 path[original_x][original_y][pcount[original_x][original_y]]=i;
                 pcount[original_x][original_y]=pcount[original_x][original_y]+1;
