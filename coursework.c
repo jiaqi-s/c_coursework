@@ -67,10 +67,7 @@ int main(void) {
     //definemap
     FILE *file;
     file = fopen("island_map.txt", "r");
-    if (file == NULL) {
-        perror("Error!");  
-        exit(1);
-    }
+
   
     int i = 0, j = 0;
     char c;
@@ -109,10 +106,7 @@ int main(void) {
             if (result == -1){
                 break;
             }
-            if (result == -2){
-                printf("Error!");
-                exit(1);
-            }
+
             if(i == 9){
                 break;
             }
