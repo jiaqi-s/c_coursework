@@ -1,0 +1,165 @@
+//[studentID:11372044]
+//[Jiaqi Sheng]
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include "determination.h"
+#include "movement.h"
+
+//define
+#define ROWS 9
+#define COLS 9
+char map[ROWS][COLS]={0};
+double total[ROWS][COLS];
+double success[ROWS][COLS];
+double probability[ROWS][COLS];
+double pathcount[ROWS][COLS];
+double pathavg[ROWS][COLS];
+double path[ROWS][COLS][1000];
+double pathsd[ROWS][COLS];
+int pcount[ROWS][COLS];
+
+//main
+int main(void) {
+    srand(time(NULL)); 
+    //definemap
+    FILE *file;
+    file = fopen("map.txt", "r");
+    if (file == NULL) {
+        perror("Error!");  
+        exit(1);
+    }
+  
+    int i = 0, j = 0;
+    char c;
+    while ((c = fgetc(file)) != EOF) {  
+        if (c == ' ' || c == '\n') {
+            continue;
+        }
+        if (c==0){
+            printf("Error!");
+            exit(1);
+        }
+        if (j < COLS) {
+            map[i][j++] = c;
+        }
+        if (j == COLS) {
+            i++;
+            j = 0;
+            if (i >= ROWS) break;  
+        }
+    }
+    fclose(file);
+
+
+    for (int i=0;i<10000;i++){
+        int human_x= rand() % 9+0;
+        int human_y= rand() % 9+0;
+
+        total[human_x][human_y]=total[human_x][human_y]+1;
+        int original_x=human_x;
+        int original_y=human_y;
+        for (int i=0;i<10;i++){
+            int result = determination(map, &human_x, &human_y);
+            if (result == 1){
+                path[original_x][original_y][pcount[original_x][original_y]]=i;
+                pcount[original_x][original_y]=pcount[original_x][original_y]+1;
+                success[original_x][original_y]=success[original_x][original_y]+1;
+                pathcount[original_x][original_y]=pathcount[original_x][original_y]+i;
+                break;
+            }
+            if (result == -1){
+                break;
+            }
+            if (result == -2){
+                printf("Error!");
+                exit(1);
+            }
+            if(i == 9){
+                break;
+            }
+            movement(&human_x,&human_y);
+        }
+    }
+
+    //print map
+    printf("Map:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%c ", map[i][j]);
+        }
+        printf("\n");
+    }
+
+    //probability of escape
+    //1.calculation
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            double s =success[i][j];
+            double t =total[i][j];
+            if (t!=0){
+                double p=(s/t)*100;
+                probability[i][j]=p;
+            }
+        }
+    }
+    //2.print
+    printf("\nProbability of escape:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%6.2lf ", probability[i][j]);
+        }
+        printf("\n");
+    }
+
+    //mean path length
+    //1.calculation
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            double p =pathcount[i][j];
+            double s =success[i][j];
+            if (s!=0){
+                double m=(p/s);
+                pathavg[i][j]=m;
+            }
+        }
+    }
+    //2.print
+    printf("\nMean path length:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%0.2lf ", pathavg[i][j]);
+        }
+        printf("\n");
+    }
+
+    //standard deviation
+    //1.calculation
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            double p=0;
+            for(int z=0;z<pcount[i][j];z++){
+                double cha =path[i][j][z]-pathavg[i][j];
+                p= cha*cha + p;
+            }
+            double s =success[i][j];
+            if (s!=0){
+                double sd=sqrt(p/s);
+                pathsd[i][j]=sd;
+            }
+        }
+    }
+    //2.print
+    printf("\nStandard deviation of path length:\n");
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%0.2lf ", pathsd[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+
+}
