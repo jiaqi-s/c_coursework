@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-#include "determination.h"
-#include "movement.h"
+
 
 //define
 #define ROWS 9
@@ -20,6 +19,47 @@ double pathavg[ROWS][COLS];
 double path[ROWS][COLS][1000];
 double pathsd[ROWS][COLS];
 int pcount[ROWS][COLS];
+
+void movement(int *a, int *b) {
+    int direction = rand() % 8+0; 
+    if (direction == 0) {
+        *a = *a - 1; 
+    } else if (direction == 1) {
+        *a = *a - 1;
+        *b = *b + 1; 
+    } else if (direction == 2) {
+        *b = *b + 1; 
+    } else if (direction == 3) {
+        *a = *a + 1;
+        *b = *b + 1; 
+    } else if (direction == 4) {
+        *a = *a + 1;
+    } else if (direction == 5) {
+        *a = *a + 1;
+        *b = *b - 1; 
+    } else if (direction == 6) {
+        *b = *b - 1; 
+    } else if (direction == 7) {
+        *a = *a - 1;
+        *b = *b - 1; 
+    }
+}
+
+
+int determination(char (*array)[9][9],int *a,int *b){
+
+    if ((*array)[*a][*b]=='V'|| (*array)[*a][*b]=='W'|| (*array)[*a][*b]=='D'){
+        return -1;
+    }else if ((*array)[*a][*b]=='B')
+    {
+        return 1;
+    }else if ((*array)[*a][*b]=='L')
+    {
+        return 0;
+    }else{
+        return -2;
+    }
+}
 
 //main
 int main(void) {
