@@ -61,7 +61,7 @@ int determination(char (*array)[9][9],int *a,int *b){
 
 //main
 int main(void) {
-    srand(time(NULL)); 
+    srand(123456); 
     //definemap
     FILE *file;
     file = fopen("island_map.txt", "r");
@@ -116,6 +116,7 @@ int main(void) {
                     if(i == 9){
                         break;
                     }
+
                     movement(&human_x,&human_y);
                     i++;
                 }
