@@ -22,47 +22,61 @@ int pcount[ROWS][COLS];
 
 void movement(int *a, int *b) {
     int direction = rand() % 8;
-    if (direction == 0) {
+    if (direction == 0 && *a != 0) {// north
         *a = *a - 1; 
-    } else if (direction == 1) {
+    } else if (direction == 1 && *a != 0) {//north east
         *a = *a - 1;
         *b = *b + 1; 
-    } else if (direction == 2) {
+    } else if (direction == 2 && *b != 8) {//east
         *b = *b + 1; 
-    } else if (direction == 3 && *a !=8) {
+    } else if (direction == 3 && *a != 8) {//south east
         *a = *a + 1;
         *b = *b + 1; 
-    } else if (direction == 4 && *a !=8) {
+    } else if (direction == 4 && *a != 8) {//south
         *a = *a + 1;
-    } else if (direction == 5 && *a !=8) {
+    } else if (direction == 5 && *a != 8) {//south west
         *a = *a + 1;
         *b = *b - 1; 
-    } else if (direction == 6) {
+    } else if (direction == 6 && *b != 0) {//west
         *b = *b - 1; 
-    } else if (direction == 7) {
+    } else if (direction == 7 && *a != 0) {//north west
         *a = *a - 1;
         *b = *b - 1; 
-    }else if( direction ==3 && *a ==8) {
+
+    }else if( direction ==3 && *a ==8 && *b != 8) {//south east at edge
         *b = *b + 1;
-    }else if( direction ==4 && *a ==8) {
+    }else if( direction ==4 && *a ==8) {//south at edge
         *b = *b;
         *a = *a;
-    }else if( direction ==5 && *a ==8) {
+    }else if( direction ==5 && *a ==8 && *b != 0) {//south west at edge
         *b = *b - 1;
+
+    }else if( direction ==1 && *a ==8 && *b != 8) {//north east at edge
+        *b = *b + 1;
+    }else if( direction ==0 && *a ==8 ) {//north at edge
+        *b = *b;
+        *a = *a;
+    }else if( direction ==7 && *a ==8 && *b!= 0) {//north west at edge
+        *b = *b - 1;
+    }else{//at four edges of the map
+        *a=*a;
+        *b=*b;
     }
 }
 
 
-int determination(char (*array)[9][9],int *a,int *b){
+int determination(char (*array)[9][9],int *a,int *b){//determine the state of cells
 
     if ((*array)[*a][*b]=='V'|| (*array)[*a][*b]=='W'|| (*array)[*a][*b]=='D'){
         return -1;
     }else if ((*array)[*a][*b]=='B')
     {
         return 1;
-    }else if ((*array)[*a][*b]=='L')//
+    }else if ((*array)[*a][*b]=='L')
     {
         return 0;
+    }else{
+        return -2;
     }
 }
 
@@ -71,27 +85,27 @@ int main(void) {
     srand(123456); 
     //definemap
     FILE *file;
-    file = fopen("island_map.txt", "r");
+    file = fopen("island_map.txt", "r");//open file for read
     if (file == NULL) {
-        printf("Error!");  
+        printf("Error!");  //when nothing in file
         exit(1);
     }
   
     int i = 0, j = 0;
     char c;
     while ((c = fgetc(file)) != EOF) {  
-        if (c == ' ' || c == '\n') {
+        if (c == ' ' || c == '\n') {//skip space and \n
             continue;
         }
         if (j < 9) {
-            map[i][j] = c;
+            map[i][j] = c;//store island_map.txt in map array
             j++;
         }
         if (j == 9) {
             i++;
             j = 0;
             if (i > 9) {
-                printf("Error!");
+                printf("Error!");//when map is bigger than 9x9
                 exit(1);
             }
         }
@@ -100,7 +114,7 @@ int main(void) {
 
     for (int p=0;p<9;p++){
         for(int o=0;o<9;o++){
-            for (int i=0;i<1000;i++){
+            for (int i=0;i<1000;i++){//for each cell random 1000 times
                 int human_x= p;
                 int human_y= o;
                 int original_x=human_x;
@@ -117,7 +131,10 @@ int main(void) {
                     if (result == -1){
                         break;
                     }
-
+                    if (result == -2){
+                        printf("Error!");//when out of 9x9
+                        exit(1);
+                    }
                     if(i == 9){
                         break;
                     }
