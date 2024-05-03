@@ -21,7 +21,7 @@ double pathsd[ROWS][COLS];
 int pcount[ROWS][COLS];
 
 void movement(int *a, int *b) {
-    int direction = rand() % 8+0; 
+    int direction = rand() % 8;
     if (direction == 0) {
         *a = *a - 1; 
     } else if (direction == 1) {
@@ -29,12 +29,12 @@ void movement(int *a, int *b) {
         *b = *b + 1; 
     } else if (direction == 2) {
         *b = *b + 1; 
-    } else if (direction == 3) {
+    } else if (direction == 3 && *a !=8) {
         *a = *a + 1;
         *b = *b + 1; 
-    } else if (direction == 4) {
+    } else if (direction == 4 && *a !=8) {
         *a = *a + 1;
-    } else if (direction == 5) {
+    } else if (direction == 5 && *a !=8) {
         *a = *a + 1;
         *b = *b - 1; 
     } else if (direction == 6) {
@@ -42,6 +42,13 @@ void movement(int *a, int *b) {
     } else if (direction == 7) {
         *a = *a - 1;
         *b = *b - 1; 
+    }else if( direction ==3 && *a ==8) {
+        *b = *b + 1;
+    }else if( direction ==4 && *a ==8) {
+        *b = *b;
+        *a = *a;
+    }else if( direction ==5 && *a ==8) {
+        *b = *b - 1;
     }
 }
 
@@ -67,7 +74,7 @@ int main(void) {
     file = fopen("island_map.txt", "r");
     if (file == NULL) {
         printf("Error!");  
-        return 1;
+        exit(1);
     }
   
     int i = 0, j = 0;
@@ -85,7 +92,7 @@ int main(void) {
             j = 0;
             if (i > 9) {
                 printf("Error!");
-                return 1;
+                exit(1);
             }
         }
     }
@@ -96,8 +103,6 @@ int main(void) {
             for (int i=0;i<1000;i++){
                 int human_x= p;
                 int human_y= o;
-
-                total[human_x][human_y]=total[human_x][human_y]+1;
                 int original_x=human_x;
                 int original_y=human_y;
                 for (int i=0;i<11;){
@@ -140,11 +145,9 @@ int main(void) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             double s =success[i][j];
-            double t =total[i][j];
-            if (t!=0){
-                double p=(s/t)*100;
-                probability[i][j]=p;
-            }
+            double p=(s/1000)*100;
+            probability[i][j]=p;
+
         }
     }
     //2.print
@@ -161,6 +164,7 @@ int main(void) {
 
     //mean path length
     //1.calculation
+
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             double p =pathcount[i][j];
@@ -168,6 +172,7 @@ int main(void) {
             if (s!=0){
                 double m=(p/s);
                 pathavg[i][j]=m;
+            
             }
         }
     }
